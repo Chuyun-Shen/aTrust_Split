@@ -1,0 +1,16 @@
+#!/bin/bash
+# Keep browser authentication and its localhost callback in this network namespace.
+case "${1:-}" in
+  https://*|http://*)
+    exec chromium --no-sandbox --no-first-run --disable-dev-shm-usage "$@"
+    ;;
+  atrust://browserstart|atrust://browserstart/)
+    # Linux receives argv, unlike macOS's open-url event. The vendor client
+    # expects the literal browserstart argument to wake its local service.
+    exec /usr/share/sangfor/aTrust/aTrustTray --no-sandbox browserstart
+    ;;
+  atrust://*)
+    exec /usr/share/sangfor/aTrust/aTrustTray --no-sandbox "$@"
+    ;;
+  *) exit 1 ;;
+esac

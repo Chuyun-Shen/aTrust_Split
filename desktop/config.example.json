@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "profiles": [
+    {
+      "id": "a",
+      "name": "机构 A",
+      "short_name": "A",
+      "domains": [
+        "a.example.org"
+      ],
+      "fixed_ips": [
+        "10.101.0.10"
+      ],
+      "gateways": [
+        "vpn.a.example.org",
+        "vpn-alt.a.example.org"
+      ],
+      "probe": "intranet.a.example.org",
+      "login_url": "https://vpn.a.example.org/portal/",
+      "business_probe": {
+        "host": "10.101.0.10",
+        "port": 22,
+        "protocol": "ssh",
+        "name": "业务服务"
+      }
+    },
+    {
+      "id": "b",
+      "name": "机构 B",
+      "short_name": "B",
+      "domains": [
+        "b.example.org"
+      ],
+      "fixed_ips": [],
+      "gateways": [
+        "vpn.b.example.org",
+        "vpn-alt.b.example.org"
+      ],
+      "probe": "intranet.b.example.org",
+      "login_url": "https://vpn.b.example.org/portal/",
+      "business_probe": {
+        "host": "intranet.b.example.org",
+        "port": 443,
+        "protocol": "tls",
+        "name": "业务服务"
+      }
+    }
+  ]
+}

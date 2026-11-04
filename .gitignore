@@ -1,6 +1,7 @@
 .venv/
 .local/
 *.local.toml
+*.local.json
 __pycache__/
 *.py[cod]
 *.egg-info/
@@ -11,3 +12,9 @@ dist/
 .env
 *.pem
 *.key
+*.har
+*.jsonl
+*.env
+backups/
+desktop/vendor/tun2socks
+desktop/vendor/*.tmp

@@ -8,6 +8,8 @@ A routing tool for macOS: send selected internal IPs through aTrust while other 
 
 **Experimental CLI · MIT · macOS 13+ · Python 3.11+**
 
+For menu-bar connection selection, use the [desktop app](#desktop): select institution A, B, both, or neither, and choose which runs natively when both are selected. Only generic examples are shipped; institution and business-server details stay in local configuration.
+
 ## 1. Install
 
 Install the official macOS aTrust client and configure Clash/Mihomo. Docker is not required for the default setup.
@@ -116,9 +118,66 @@ Replace the path in the last command with your actual installation path. Verify 
 
 To stop, press Ctrl-C in the routing terminal, then run `.venv/bin/atrust-split --config config.dual.local.toml down`. To return to one aTrust session, remove the second IP list from your Clash overrides and restart with the original `config.local.toml`. After changing container settings, stop routing, then run `down --remove` followed by `up`. Data volumes are retained, but you may need to authenticate again.
 
+<a id="desktop"></a>
+
+## Menu-bar desktop app
+
+`desktop/` contains the standalone **macOS 13+, Apple Silicon** app. The existing CLI remains available; do not run both routing managers together. The desktop app integrates with the **Clash Verge/Mihomo service** and is built locally with ad-hoc signing, not notarized.
+
+### Build and configure
+
+Install Xcode Command Line Tools and Python 3.11+, then run from the repository root:
+
+```sh
+brew install colima docker
+python3 -m venv --prompt atrust-split-desktop desktop/.venv
+desktop/.venv/bin/python -m pip install -r desktop/requirements.txt
+bash desktop/build.sh
+cp desktop/config.example.json desktop/config.local.json
+```
+
+The build downloads and verifies a pinned upstream tun2socks release. The app is written to `desktop/dist/ATrust Split.app`; building does not install services or change networking.
+
+Edit both `profiles` in `desktop/config.local.json`, keeping IDs `a` and `b`:
+
+- `name` / `short_name`: display labels.
+- `domains`, `gateways`, `login_url`: business-domain scopes, official gateway hostnames, and full HTTPS portal URL.
+- `fixed_ips`: explicit individual IPv4 system-route targets; may be empty, must not overlap between institutions.
+- `probe`: a DNS health-check hostname within the business-domain scope, not a login gateway.
+- `business_probe`: an authorized service with `host`, `port`, `protocol` (`ssh` or `tls`), and `name`. SSH checks the server banner; TLS verifies certificate trust and hostname. Neither sends account credentials.
+
+After replacing every example address:
+
+```sh
+bash desktop/install.command "$PWD/desktop/config.local.json"
+```
+
+Installation requires administrator authorization. Institution data is copied only to root-managed `/Library/Application Support/ATrustSplit/settings.json`, never bundled into the app. Reinstall with the same command after editing profiles. An existing same-named app with a different bundle identity is not overwritten.
+
+No connection is selected initially. One selection runs natively; two selections use native and isolated clients. Choose the native institution under Settings. Clearing both logs out the native session, stops the dedicated VM, restores managed routes and the Clash overlay, then closes the official client window after confirmation. A subsequently reopened client is not repeatedly closed.
+
+Selections are stored in `~/Library/Application Support/ATrustDual/connections.json`. Quitting the menu-bar app leaves background services running; uninstall is available in Settings. SSH configuration is not modified; account credentials are not stored or moved.
+
+### Prepare the optional container
+
+Before selecting both institutions, run as your normal user. Do not reuse a same-named VM that serves another purpose:
+
+```sh
+colima start --profile atrust-split-desktop --arch aarch64 --vm-type vz --runtime docker --cpu 2 --memory 3 --disk 20 --activate=false --ssh-config=false
+docker --context colima-atrust-split-desktop build --platform linux/arm64 \
+  --build-arg BASE_IMAGE=hagb/docker-atrust@sha256:978d613b9d863a80ebaf9ea3e9cf75f2c8dfc39cadd28cac41f865a1a0eed5ca \
+  --tag local/atrust-split:desktop --file desktop/container/Dockerfile desktop
+```
+
+Select both institutions and authenticate through the appropriate container desktop. Each institution has separate data volumes; changing locations may require another login. Container domains use a dedicated Clash SOCKS node; configured IPv4 targets use owned `/32` transparent routes. The container path supports IPv4 TCP only.
+
+**Local trust boundary:** SOCKS, VNC and noVNC bind only to loopback, but SOCKS has no user authentication. Other accounts or untrusted processes on the same Mac are not isolated. Use only on a trusted single-user host; do not expose these ports.
+
+Real authentication, business access and system-route recovery require your own end-to-end acceptance checks. A successful build or probe is not a substitute. Review [third-party terms](THIRD_PARTY_NOTICES.md) before using or distributing images.
+
 ## Scope
 
-- Manages selected IPv4 addresses and recognized aTrust routes only. Automatic domain discovery, DNS management, IPv6, startup services, and Windows are not currently supported.
+- The CLI manages selected IPv4 addresses and recognized aTrust routes only; automatic domain discovery, DNS management, IPv6, startup services and Windows are not supported. The desktop app additionally provides DNS routing for configured business domains and launchd services.
 - A second aTrust session is optional. Its container tunnel supports IPv4 TCP only.
 - This is an unofficial project. Authenticate through the official client; the repository contains no accounts, login data, or official client binaries.
 

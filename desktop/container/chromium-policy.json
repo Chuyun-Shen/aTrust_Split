@@ -1,0 +1,6 @@
+{
+  "DnsOverHttpsMode": "off",
+  "BackgroundModeEnabled": false,
+  "MetricsReportingEnabled": false,
+  "SyncDisabled": true
+}

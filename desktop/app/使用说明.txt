@@ -1,0 +1,66 @@
+aTrust Split 使用说明
+
+首次配置
+公开源码和发布包不附带任何实际机构、账号或业务端点资料。
+机构 A / 机构 B 是占位标签；未配置时默认两个都不勾选，不能连接。
+复制源码目录中的 config.example.json 为 config.local.json，在本机填写两份实际机构资料：
+id 固定为 a / b；name、short_name 可自行命名；login_url 为完整 HTTPS 登录地址。
+还需填写 gateways、domains、fixed_ips、DNS probe 与 business_probe。
+占位的 example.org 域名必须替换为你有权使用的真实配置。
+不要将 config.local.json、凭据、日志或个人网络资料提交到公开仓库。
+安装器校验后将资料写入管理员拥有的本地文件：
+/Library/Application Support/ATrustSplit/settings.json
+修改机构资料应编辑本地 config.local.json 后重新安装，再重启菜单栏应用与后台。
+“设置 → 打开配置文件”查看已安装资料；普通用户不能直接修改该管理员文件。
+
+菜单里的两行勾选
+✓ 机构 A    ✓ 机构 B
+菜单名称和网页登录地址均来自本机配置，不由源码写死。
+只勾一个：该机构在本机官方 aTrust 中运行，专用容器虚拟机停止。
+两个都勾：一个在本机，一个在隔离容器中，各自独立登录。
+都不勾：确认注销本机 aTrust 会话、停止容器和专用虚拟机、恢复本应用管理的网络配置，
+然后正常退出官方 aTrust 窗口。Split 菜单栏保留；手动重新打开的 aTrust 不会被反复关闭。
+勾选表示期望连接，不等于已认证；旁边状态显示实际进度。
+无效选择或缺少真实机构配置会显示错误，不会因此注销现有会话或修改虚拟机。
+
+选择本机机构
+设置 → 双连接时本机运行 → 机构 A / 机构 B。
+默认偏好为 a；仅勾一个机构时，此偏好不影响它在本机运行。
+切换位置需要先确认旧会话断开，新位置可能需要重新登录。
+连接选择保存在 ~/Library/Application Support/ATrustDual/connections.json。
+后台自动读取选择；文件格式错误不会被当作全部断开执行。
+
+登录与分流
+“机构名称 网页登录”打开本地配置中的完整 login_url，在网页按提示认证并唤起客户端。
+不会先打开 aTrust 记住的旧机构窗口；浏览器要求允许打开 aTrust 时按提示操作。
+“打开 机构名称 桌面”进入隔离容器。网页登录和 localhost 回调均应在该桌面内完成。
+密码、扫码和二次认证由本人操作；本应用不保存或迁移机构账号凭据。
+本机机构配置的域名和指定 IP 进入本机 VPN，其余网络沿用现有 Clash 策略。
+容器机构域名通过 Clash 的专用 SOCKS 节点转发，机构 DNS 在容器内解析。
+Mac 浏览器访问容器机构网页时需保持 Clash 及其系统代理/TUN 开启。
+绕过 Clash 的应用可使用容器桌面内部浏览器；没有将所有私网导入 VPN。
+容器网页分流仅支持 IPv4 TCP；登录网关排除在业务规则外。
+只管理配置中明确指定的单个 IPv4 目标，不创建私网大范围路由，不修改个人 SSH 配置。
+
+状态与内存
+绿点：已连接；橙点：需要登录；黄点：准备或检查中；红点：操作或连通性异常。
+本机状态同时反映官方客户端登录及本机分流状态。
+容器使用本地 business_probe 中配置的 SSH 或 TLS 端点检查业务连通性。
+业务不可达不一定意味着账号退出；首次容器登录仍需实际验收。
+内存为 cgroup 用量（含缓存），不是整台虚拟机的宿主机占用。
+单连接或全部断开会停止专用虚拟机，保留镜像和各机构独立数据卷。
+
+后台与恢复
+退出菜单栏不停止后台连接；需要全部断开时请取消两个勾选并等待完成。
+连接选择保存后，重启或重新登录 Mac 会继续按上次选择运行。
+安装、修复和卸载需要 macOS 管理员验证；日常选择无需管理员密码。
+应用：/Applications/ATrust Split.app
+本机日志：/Library/Logs/ATrustSplit/
+连接选择与容器日志：~/Library/Application Support/ATrustDual/
+机构资料：/Library/Application Support/ATrustSplit/settings.json
+容器专用 Colima profile：atrust-split-desktop；Docker context：colima-atrust-split-desktop。
+卸载会停止服务和专用虚拟机并恢复本应用管理的网络配置，保留应用和登录资料。
+
+第三方组件
+透明路由使用 tun2socks：https://github.com/xjasonlyu/tun2socks
+第三方组件及许可证随完整构建产物打包；自行构建时按源码说明准备组件并核验校验值。
