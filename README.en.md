@@ -8,18 +8,6 @@ A routing tool for macOS: send selected internal IPs through aTrust while other 
 
 **Experimental CLI · MIT · macOS 13+ · Python 3.11+**
 
-## Install with an AI assistant
-
-Copy this prompt to an AI agent that can use your local terminal:
-
-```text
-Help me install and configure https://github.com/Chuyun-Shen/aTrust_Split .
-Read README.en.md, check compatibility with my machine, and create a project-local .venv with the prompt name atrust-split.
-Set up one native aTrust client alongside Clash by default. Ask for the official gateway, target IPs, or Clash mode only if that information is missing.
-Enable the second aTrust session only if I need it. Preserve existing Clash subscriptions, proxy nodes, and unrelated rules; back up settings before editing them. If another routing manager is installed, check compatibility and recovery procedures first.
-I will complete login, QR authentication, and MFA in the official client. Verify internal services and my existing Clash connections, explain how to stop and recover, and clearly identify anything you could not verify.
-```
-
 ## 1. Install
 
 Install the official macOS aTrust client and configure Clash/Mihomo. Docker is not required for the default setup.

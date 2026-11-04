@@ -8,18 +8,6 @@ macOS 分流工具：指定内网 IP 走 aTrust，其他流量继续使用原来
 
 **实验版 CLI · MIT · macOS 13+ · Python 3.11+**
 
-## 用 AI 助手安装
-
-将下面这段提示发给能操作本机终端的 AI agent：
-
-```text
-请帮我安装并配置 https://github.com/Chuyun-Shen/aTrust_Split 。
-先阅读 README，检查本机兼容性，并在项目内创建显示名称为 atrust-split 的 .venv 环境。
-默认配置一个本机 aTrust 与 Clash 分流；缺少官方网关、业务 IP 或 Clash 模式时再询问我。
-仅在我需要第二个 aTrust 时启用双机构扩展。保留现有 Clash 订阅、节点和无关规则，修改前备份；已有路由管理器时先检查兼容与恢复方式。
-账号登录、扫码和 MFA 由我在官方界面完成。完成后验证内网业务和原有 Clash 网络，并告诉我停止与恢复的方法；未验证的步骤请明确说明。
-```
-
 ## 1. 安装
 
 准备官方 macOS aTrust 和已配置好的 Clash/Mihomo。默认模式不需要 Docker。
