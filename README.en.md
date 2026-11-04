@@ -121,6 +121,5 @@ To stop, press Ctrl-C in the routing terminal, then run `.venv/bin/atrust-split 
 - Manages selected IPv4 addresses and recognized aTrust routes only. Automatic domain discovery, DNS management, IPv6, startup services, and Windows are not currently supported.
 - A second aTrust session is optional. Its container tunnel supports IPv4 TCP only.
 - This is an unofficial project. Authenticate through the official client; the repository contains no accounts, login data, or official client binaries.
-- Local tests pass. This open-source implementation still needs real-network validation on a separate test machine. See the [validation record](docs/VALIDATION.md) (Chinese).
 
-[Routing and recovery (Chinese)](docs/DETAILS.md) · [Contributing](CONTRIBUTING.md) · [Third-party notices](THIRD_PARTY_NOTICES.md)
+[Routing and recovery (Chinese)](docs/DETAILS.md) · [Third-party notices](THIRD_PARTY_NOTICES.md)

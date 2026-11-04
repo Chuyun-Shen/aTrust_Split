@@ -121,6 +121,5 @@ sudo .venv/bin/atrust-split --config config.dual.local.toml routes --tun2socks /
 - 只管理指定 IPv4 与已识别的 aTrust 路由。域名自动发现、DNS、IPv6、开机自启动和 Windows 暂不支持。
 - 双 aTrust 为可选扩展，容器通道仅支持 IPv4 TCP。
 - 非官方项目；使用者在官方界面完成认证，仓库不含账号、登录数据或官方客户端二进制。
-- 本地测试通过，当前开源版本尚需独立测试机的实际网络验收，见[验证记录](docs/VALIDATION.md)。
 
-[分流与恢复](docs/DETAILS.md) · [参与开发](CONTRIBUTING.md) · [第三方说明](THIRD_PARTY_NOTICES.md)
+[分流与恢复](docs/DETAILS.md) · [第三方说明](THIRD_PARTY_NOTICES.md)
