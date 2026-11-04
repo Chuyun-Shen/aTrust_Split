@@ -1,5 +1,7 @@
 # aTrust Split
 
+**简体中文** | [English](README.en.md)
+
 **让 aTrust 与 Clash 各走各路。**
 
 macOS 分流工具：指定内网 IP 走 aTrust，其他流量继续使用原来的 Clash 规则。默认只用一个本机 aTrust；需要第二个机构时，再加[双 aTrust 扩展](#dual-atrust)。
