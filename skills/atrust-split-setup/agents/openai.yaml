@@ -1,0 +1,4 @@
+interface:
+  display_name: "aTrust 与 Clash 分流"
+  short_description: "配置 macOS 的 aTrust 与 Clash 分流，按需扩展第二个 aTrust"
+  default_prompt: "使用 $atrust-split-setup 配置这台 Mac 的 aTrust 与 Clash 分流。"

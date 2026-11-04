@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=aTrust Browser Login
+Type=Application
+Exec=/usr/bin/xdg-open %u
+Terminal=false
+NoDisplay=true
+MimeType=x-scheme-handler/atrust;

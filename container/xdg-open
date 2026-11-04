@@ -1,0 +1,19 @@
+#!/usr/bin/python3
+import os
+import re
+import sys
+from urllib.parse import urlsplit
+
+url = sys.argv[1] if len(sys.argv) > 1 else ""
+parsed = urlsplit(url)
+login = urlsplit(os.environ.get("AI_LOGIN_URL", ""))
+if parsed.scheme == "https" and parsed.netloc == login.netloc and parsed.path == "/passport/v1/public/casLogin":
+    url = re.sub(r"([?&]lang=)(?=&|$)", r"\1zh-CN", url)
+if parsed.scheme in ("http", "https"):
+    os.execvp("chromium", ["chromium", "--no-sandbox", "--no-first-run", "--disable-dev-shm-usage", url])
+elif url in ("atrust://browserstart", "atrust://browserstart/"):
+    os.execv("/usr/share/sangfor/aTrust/aTrustTray", ["aTrustTray", "--no-sandbox", "browserstart"])
+elif parsed.scheme == "atrust":
+    os.execv("/usr/share/sangfor/aTrust/aTrustTray", ["aTrustTray", "--no-sandbox", url])
+else:
+    sys.exit(1)

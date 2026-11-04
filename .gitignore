@@ -1,0 +1,13 @@
+.venv/
+.local/
+*.local.toml
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.DS_Store
+*.log
+.env
+*.pem
+*.key

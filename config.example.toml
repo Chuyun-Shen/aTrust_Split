@@ -1,0 +1,10 @@
+# Default: one native aTrust client + your existing Clash rules.
+version = 1
+
+[native]
+name = "My institution"
+gateway_hosts = ["vpn.example.org"]
+targets = ["10.101.0.10"]
+
+[routing]
+poll_seconds = 2

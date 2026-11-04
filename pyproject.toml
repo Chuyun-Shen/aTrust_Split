@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "atrust-split"
+version = "0.1.0"
+description = "Split routing for aTrust and Clash on macOS, with optional dual aTrust"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {file = "LICENSE"}
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/Chuyun-Shen/aTrust_Split"
+Issues = "https://github.com/Chuyun-Shen/aTrust_Split/issues"
+
+[project.scripts]
+atrust-split = "atrust_split.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["atrust_split*"]

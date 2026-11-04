@@ -1,0 +1,34 @@
+# Optional second aTrust. Start with config.example.toml for one aTrust + Clash.
+version = 1
+
+[native]
+name = "Institution A"
+gateway_hosts = ["vpn-a.example.org"]
+targets = ["10.101.0.10"]
+
+[container]
+name = "Institution B"
+login_url = "https://vpn-b.example.org"
+targets = ["10.102.0.20"]
+context = "colima-atrust-split"
+image = "local/atrust-split:0.1"
+# ARM64 reference only; AMD64 requires its own verified digest.
+base_image = "hagb/docker-atrust@sha256:978d613b9d863a80ebaf9ea3e9cf75f2c8dfc39cadd28cac41f865a1a0eed5ca"
+architecture = "arm64"
+socks_port = 10821
+desktop_port = 18091
+# Verify the DNS address of your dedicated Colima VM.
+dns = "192.168.5.2"
+# Actual aTrust interface INSIDE the Linux container.
+vpn_interface = "utun7"
+
+[routing]
+# An unused macOS utun name and link-local point-to-point address.
+device = "utun210"
+address = "169.254.240.1"
+poll_seconds = 2
+
+[probe]
+# A TCP target you are authorized to access, present in container.targets.
+target = "10.102.0.20"
+port = 22
