@@ -5,7 +5,7 @@ description: 配置或排查本仓库的 macOS aTrust 与 Clash 分流；默认�
 
 # aTrust Split 安装助手
 
-定位本仓库并读取 README.md。默认使用 `config.example.toml`：一个本机官方 aTrust，与现有 Clash 共存。只有用户需要第二个 aTrust 时，才读取 `docs/DUAL_ATRUST.md` 并使用双机构示例。
+定位本仓库并读取 README.md。默认使用 `config.example.toml`：一个本机官方 aTrust，与现有 Clash 共存。只有用户需要第二个 aTrust 时，才按 README 的“双 aTrust（可选）”章节使用双机构示例。
 
 - 确认 macOS、Python、官方 aTrust、Clash 模式和既有路由管理器。单 aTrust 不要求 Docker、Colima 或 tun2socks。
 - 获取官方网关主机名、明确的业务 IPv4 单地址。配置写入被忽略的 `*.local.toml`；密码、扫码、MFA 由用户在官方客户端完成。

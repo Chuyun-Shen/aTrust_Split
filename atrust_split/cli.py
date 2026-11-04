@@ -64,7 +64,7 @@ def main(argv=None):
             return 0
         config = load(arguments.config)
         if arguments.command in ("build", "up", "down", "login", "status", "probe") and "container" not in config:
-            raise ValueError("This command is for the optional second aTrust. See docs/DUAL_ATRUST.md and config.dual.example.toml")
+            raise ValueError("This command is for the optional second aTrust. See README.md#dual-atrust and config.dual.example.toml")
         if arguments.command in ("up", "login", "routes"):
             require_configured(config)
         if arguments.command == "check":
